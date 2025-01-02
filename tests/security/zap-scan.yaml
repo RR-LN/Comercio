@@ -1,0 +1,68 @@
+---
+env:
+  contexts:
+  - name: ecommerce
+    urls:
+    - http://localhost:8000
+    includePaths:
+    - http://localhost:8000/.*
+    excludePaths:
+    - http://localhost:8000/static/.*
+    authentication:
+      method: form
+      loginUrl: http://localhost:8000/api/auth/login
+      loginRequestData: '{"email": "test@example.com", "password": "password123"}'
+      loggedInRegex: '"token":'
+
+scan-rules:
+  - 10010 # Modern Web Application
+  - 10011 # Cookie HttpOnly
+  - 10015 # Heartbleed
+  - 10016 # Cross-Domain Misconfiguration
+  - 10017 # Cross-Domain Script Include
+  - 10019 # Content-Type Header Missing
+  - 10020 # X-Frame-Options Header
+  - 10021 # X-Content-Type-Options Header Missing
+  - 10023 # Information Disclosure - Debug Error Messages
+  - 10024 # Information Disclosure - Sensitive Information in URL
+  - 10025 # Information Disclosure - Sensitive Information in HTTP Referrer Header
+  - 10026 # HTTP Parameter Override
+  - 10027 # Information Disclosure - Suspicious Comments
+  - 10028 # Open Redirect
+  - 10031 # User Controllable HTML Element Attribute (Potential XSS)
+  - 10032 # Viewstate Scanner
+  - 10040 # Cross Site Scripting (Reflected)
+  - 10041 # Cross Site Scripting (Persistent)
+  - 10042 # CORS Scanner
+  - 10049 # Weak Authentication Method
+  - 10050 # Retrieved from Cache
+  - 10054 # Cookie Without SameSite Attribute
+  - 10055 # CSP Scanner
+  - 10056 # X-Debug-Token Information Leak
+  - 10057 # Username Hash Found
+  - 10061 # X-AspNet-Version Response Header Scanner
+  - 10096 # Timestamp Disclosure
+  - 10105 # Weak Authentication Method
+  - 10202 # Absence of Anti-CSRF Tokens
+
+alerts:
+  - name: Cross Site Scripting (Reflected)
+    risk: High
+    confidence: Medium
+    solution: Validate all input and encode output
+  - name: SQL Injection
+    risk: High
+    confidence: Medium
+    solution: Use parameterized queries
+  - name: Weak Password Requirements
+    risk: Medium
+    confidence: High
+    solution: Implement strong password policy
+
+reports:
+  - type: HTML
+    filename: security-report.html
+  - type: XML
+    filename: security-report.xml
+  - type: JSON
+    filename: security-report.json 
